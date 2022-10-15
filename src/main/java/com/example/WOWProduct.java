@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @param fecCreaProdLocOfe
  */
 @Table(name = "LGT_PROD_LOCAL_OFERTA_AUX", schema = "REGIONALIZACION")
-public record WOWProduct(@EmbeddedId WOWProductId wowProductId,
+public record WOWProduct(@EmbeddedId WOWProductId id,
                          float porcDctoOferta,
                          LocalDateTime fecIniVigOferta,
                          LocalDateTime fecFinVigOferta,
