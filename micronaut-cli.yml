@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.example
+testFramework: spock
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, data, data-jdbc, gradle, http-client, jackson-databind, java, java-application, jdbc-hikari, logback, micronaut-build, netty-server, oracle, readme, shade, spock, test-resources, yaml]
