@@ -1,7 +1,9 @@
 package com.example;
 
+import io.micronaut.core.annotation.Nullable;
 import jakarta.persistence.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -17,9 +19,9 @@ import java.time.LocalDateTime;
 public record WOWProduct(@EmbeddedId WOWProductId id,
                          float porcDctoOferta,
                          LocalDateTime fecIniVigOferta,
-                         LocalDateTime fecFinVigOferta,
-                         String usuCreaProdLocOfe,
-                         LocalDateTime fecCreaProdLocOfe) {
+                         @Nullable LocalDateTime fecFinVigOferta,
+                         @Nullable String usuCreaProdLocOfe,
+                         @Nullable LocalDateTime fecCreaProdLocOfe) {
 }
 
 /**
@@ -31,7 +33,7 @@ public record WOWProduct(@EmbeddedId WOWProductId id,
  */
 @Embeddable
 record WOWProductId(
-        @Column(name = "COD_GRUPO_CIA") String codGrupoCia,
+        @Column(name = "COD_GRUPO_CIA") @NotNull String codGrupoCia,
         @Column(name = "COD_LOCAL") String codLocal,
         @Column(name = "COD_OFERTA") String codOferta,
         @Column(name = "COD_PROD") String codProd) {

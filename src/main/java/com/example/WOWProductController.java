@@ -6,6 +6,8 @@ import io.micronaut.http.annotation.Post;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
+
 @Controller("/")
 public class WOWProductController {
 
@@ -21,11 +23,17 @@ public class WOWProductController {
     }
 
     @Post("/")
-    public Mono<WOWProduct> insert(WOWProduct wowProduct) {
-        return wowProductService.truncate()
-                .log()
-                .thenReturn(
-                        new WOWProduct(null,0,null,null,null,null)
-                );
+    public Mono<WOWProduct> insert(@Valid WOWProduct wowProduct) {
+        return wowProductService.save(wowProduct);
+    }
+
+    @Get("/wow/vencidos")
+    public Mono<Integer> vencidos() {
+        return wowProductService.findVencidos();
+    }
+
+    @Get("/wow")
+    public Flux<WOWProduct> byDcto(float dcto) {
+        return wowProductService.findDcto(dcto);
     }
 }
