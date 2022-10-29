@@ -23,19 +23,18 @@ public class WOWProductService {
         this.validator = validator;
     }
 
-    Mono<Long> truncate() {
+    public Mono<Long> truncate() {
         return wowProductRepository.truncate();
-    }
-
-    public Flux<WOWProduct> findAll() {
-        return wowProductRepository.findAll();
     }
 
     public Mono<WOWProduct> save(WOWProduct wowProduct) {
         Set<ConstraintViolation<WOWProduct>> constraintViolations = validator.validate(wowProduct);
         LOG.info(String.valueOf(constraintViolations.size()));
-        return wowProductRepository.truncate()
-                .then(wowProductRepository.save(wowProduct));
+        return wowProductRepository.save(wowProduct);
+    }
+
+    public Flux<WOWProduct> findAll() {
+        return wowProductRepository.findAll();
     }
 
     public Mono<Integer> findVencidos() {

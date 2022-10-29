@@ -21,21 +21,6 @@ public abstract class WOWProductRepository implements ReactiveStreamsCrudReposit
         this.r2dbcOperations = r2dbcOperations;
     }
 
-
-    public abstract Flux<WOWProduct> findAll();
-
-    public abstract Flux<WOWProduct> findByPorcDctoOferta(float dcto);
-
-
-    @Query("""
-            SELECT COUNT(*) 
-            FROM REGIONALIZACION.LGT_PROD_LOCAL_OFERTA_AUX 
-            WHERE FEC_FIN_VIG_OFERTA < :fecha
-            """)
-    public abstract Mono<Integer> countVencidos(LocalDateTime fecha);
-
-    public abstract Mono<WOWProduct> save(WOWProduct wowProduct);
-
     Mono<Long> truncate() {
         return Mono.from(
                 r2dbcOperations.withConnection(connection -> Flux.from(
@@ -44,4 +29,18 @@ public abstract class WOWProductRepository implements ReactiveStreamsCrudReposit
                         .map((Number n) -> n.longValue())
                 ));
     }
+
+    public abstract Mono<WOWProduct> save(WOWProduct wowProduct);
+
+    public abstract Flux<WOWProduct> findAll();
+
+    public abstract Flux<WOWProduct> findByPorcDctoOferta(float dcto);
+
+    @Query("""
+            SELECT COUNT(*) 
+            FROM REGIONALIZACION.LGT_PROD_LOCAL_OFERTA_AUX 
+            WHERE FEC_FIN_VIG_OFERTA < :fecha
+            """)
+    public abstract Mono<Integer> countVencidos(LocalDateTime fecha);
+
 }

@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
-@Controller("/")
+@Controller("/wow")
 public class WOWProductController {
 
     protected final WOWProductService wowProductService;
@@ -17,22 +17,22 @@ public class WOWProductController {
         this.wowProductService = wowProductService;
     }
 
-    @Get("/list")
-    public Flux<WOWProduct> list() {
-        return wowProductService.findAll();
-    }
-
     @Post("/")
     public Mono<WOWProduct> insert(@Valid WOWProduct wowProduct) {
         return wowProductService.save(wowProduct);
     }
 
-    @Get("/wow/vencidos")
+    @Get("/list")
+    public Flux<WOWProduct> list() {
+        return wowProductService.findAll();
+    }
+
+    @Get("/list/vencidos")
     public Mono<Integer> vencidos() {
         return wowProductService.findVencidos();
     }
 
-    @Get("/wow")
+    @Get("/search")
     public Flux<WOWProduct> byDcto(float dcto) {
         return wowProductService.findDcto(dcto);
     }
