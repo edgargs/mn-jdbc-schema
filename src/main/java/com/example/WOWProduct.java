@@ -3,12 +3,11 @@ package com.example;
 import io.micronaut.core.annotation.Nullable;
 import jakarta.persistence.*;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
  *
- * @param wowProductId
+ * @param id
  * @param porcDctoOferta
  * @param fecIniVigOferta
  * @param fecFinVigOferta
@@ -33,7 +32,7 @@ public record WOWProduct(@EmbeddedId WOWProductId id,
  */
 @Embeddable
 record WOWProductId(
-        @Column(name = "COD_GRUPO_CIA") @NotNull String codGrupoCia,
+        @Column(name = "COD_GRUPO_CIA") String codGrupoCia,
         @Column(name = "COD_LOCAL") String codLocal,
         @Column(name = "COD_OFERTA") String codOferta,
         @Column(name = "COD_PROD") String codProd) {

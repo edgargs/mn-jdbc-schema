@@ -1,13 +1,18 @@
 package com.example;
 
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.validation.Validated;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
+@Validated
 @Controller("/wow")
 public class WOWProductController {
 
@@ -18,8 +23,8 @@ public class WOWProductController {
     }
 
     @Post("/")
-    public Mono<WOWProduct> insert(@Valid WOWProduct wowProduct) {
-        return wowProductService.save(wowProduct);
+    public Mono<WOWProduct> insert(@Valid WOWProductDTO wowProductDTO) {
+        return wowProductService.save(wowProductDTO);
     }
 
     @Get("/list")
@@ -35,5 +40,10 @@ public class WOWProductController {
     @Get("/search")
     public Flux<WOWProduct> byDcto(float dcto) {
         return wowProductService.findDcto(dcto);
+    }
+
+    @Post("/send")
+    public HttpResponse send(@Body @Valid WOWProductDTO wowProductDTO) { //
+        return HttpResponse.ok(Collections.singletonMap("msg", "OK"));
     }
 }

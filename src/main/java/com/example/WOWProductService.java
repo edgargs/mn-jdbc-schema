@@ -1,35 +1,36 @@
 package com.example;
 
-import io.micronaut.validation.validator.Validator;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.validation.ConstraintViolation;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Singleton
 public class WOWProductService {
     private static final Logger LOG = LoggerFactory.getLogger(WOWProductService.class);
 
     private final WOWProductRepository wowProductRepository;
-    private final Validator validator;
 
-    public WOWProductService(WOWProductRepository wowProductRepository, Validator validator) {
+    public WOWProductService(WOWProductRepository wowProductRepository) {
         this.wowProductRepository = wowProductRepository;
-        this.validator = validator;
     }
 
     public Mono<Long> truncate() {
         return wowProductRepository.truncate();
     }
 
-    public Mono<WOWProduct> save(WOWProduct wowProduct) {
-        Set<ConstraintViolation<WOWProduct>> constraintViolations = validator.validate(wowProduct);
-        LOG.info(String.valueOf(constraintViolations.size()));
+    public Mono<WOWProduct> save(WOWProductDTO wowProductDTO) {
+        var wowProductId = new WOWProductId(wowProductDTO.getCodGrupoCia(),
+                wowProductDTO.getCodLocal(),
+                wowProductDTO.getCodOferta(),
+                wowProductDTO.getCodProd());
+        var wowProduct = new WOWProduct(wowProductId,
+                wowProductDTO.getPorcDctoOferta(),
+                wowProductDTO.getFecIniVigOferta(),
+                null,null,null);
         return wowProductRepository.save(wowProduct);
     }
 
